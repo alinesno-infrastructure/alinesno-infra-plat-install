@@ -1,0 +1,52 @@
+server:
+  port: 28080 
+  servlet:
+    context-path: /
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password:
+  application:
+    name: alinesno-infra-plat-install-boot
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT
+    username: test
+    password: test1234
+  devtools:
+    restart:
+      enabled: false
+      
+mybatis-plus:
+  check-config-location: false
+  
+generator:
+  enabled: false
+  database:
+    type: mysql
+  table:
+    auto: update
+  model:
+    pack: ${basePackage}.entity
+    
+dubbo:
+  registry:
+    register: false
+
+# 调度模式
+alinesno.dev.model: true
+
+alinesno:
+  swagger:
+    author: LiDongMei 
+    enabled: true
+    desc: ACP安装器 
+    title: 在线安装文档接口管理 
+    version: 2.1.2-RC
+    scan-package: com.alinesno.cloud.busines.platform.install.gateway
+  shiro:
+    cas: http://v2.cas.dev.lbxinhu.linesno.com:23456
+    server-url-prefix: http://demo.lbxinhu.linesno.com:23456
+  anons:
+  - /api/install/**
+  - /websocket/**

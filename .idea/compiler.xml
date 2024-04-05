@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="alinesno-infra-plat-install-gateway" />
+        <module name="alinesno-infra-plat-install-facade" />
+        <module name="alinesno-infra-plat-install-domain" />
+        <module name="alinesno-infra-plat-install-boot" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="alinesno-infra-plat-install-boot" options="-parameters -nowarn" />
+      <module name="alinesno-infra-plat-install-domain" options="-parameters -nowarn" />
+      <module name="alinesno-infra-plat-install-facade" options="-parameters -nowarn" />
+      <module name="alinesno-infra-plat-install-gateway" options="-parameters -nowarn" />
+      <module name="alinesno-infra-plat-install-parent" options="-parameters -nowarn" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,45 @@
+spring:
+  jpa:
+    properties:
+      hibernate :
+        show_sql: true 
+  application:
+    name: ${SPRING_APPLICATION_NAME}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+
+server:
+  port: ${SERVER_PORT}
+  
+dubbo:
+  application:
+    name: ${SPRING_APPLICATION_NAME}
+  config-center:
+    address: ${REGISTER_ADDRESS}
+  metadata-report:
+    address: ${REGISTER_ADDRESS}
+  registry:
+    address: ${REGISTER_ADDRESS}
+mybatis-plus:
+  check-config-location: false
+generator:
+  enabled: false
+  database:
+    type: mysql
+  table:
+    auto: update
+  model:
+    pack: com.alinesno.cloud.demo.entity
+alinesno:
+  global:
+    cdn: ${CDN}
+  shiro:
+    cas: ${CAS_SERVICE}
+    server-url-prefix: ${SERVICE_URL_PREFIX}

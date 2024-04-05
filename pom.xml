@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.alinesno.infra.common</groupId>
+		<artifactId>alinesno-infra-platform-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<groupId>com.alinesno.infra.plat.install</groupId>
+	<artifactId>alinesno-infra-plat-install-parent</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<properties>
+	
+		<revision>1.0.0-SNAPSHOT</revision>
+		<alinesno.infra.version>${revision}</alinesno.infra.version>
+		
+	</properties>
+	
+	<modules>
+
+		<module>alinesno-infra-plat-install-facade</module>
+		<module>alinesno-infra-plat-install-domain</module>
+		<module>alinesno-infra-plat-install-gateway</module>
+		<module>alinesno-infra-plat-install-boot</module>
+
+	</modules>
+
+
+	<!-- 集成 clickhouse 依赖配置 -->
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+</project>

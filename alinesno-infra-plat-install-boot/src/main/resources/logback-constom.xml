@@ -1,0 +1,20 @@
+<included>
+	<!-- 引入代码示例 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+       <encoder>
+           <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+           <charset>utf8</charset>
+        </encoder>
+    </appender>
+    
+    <appender name="WEBSOCKET" class="com.alinesno.cloud.busines.platform.install.gateway.runlog.WebsocketAppender"></appender>
+
+    <logger name="org.springframework.web" additivity="false" level="INFO" />
+    <logger name="org.springframework.jdbc.datasource.init" additivity="true" level="INFO" />
+    
+    <root level="INFO">
+    	<appender-ref ref="WEBSOCKET" />
+		<appender-ref ref="CONSOLE"/>
+	</root>
+
+</included>

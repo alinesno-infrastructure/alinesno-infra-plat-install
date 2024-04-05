@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd        http://dubbo.apache.org/schema/dubbo        http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+    
+    <!-- (WEB权限必须引入)用户权限 -->
+    <import resource="classpath:spring/dubbo-common-web-consumer.xml"/>
+ 
+    <!-- 生成远程服务代理，可以和本地bean一样使用demoService 
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.demo.DemoService" />
+    -->
+   
+    
+</beans>
