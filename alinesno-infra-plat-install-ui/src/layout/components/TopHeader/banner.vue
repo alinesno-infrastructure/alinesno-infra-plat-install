@@ -1,16 +1,16 @@
 <template>
   <div>
-    <router-link tag="div" class="header-logo-bar" to="/index">
+    <div class="header-logo-bar">
       <div class="header-logo" v-if="enableLogo" @click="enterDomain">
         <img :src="saasLogoUrl" alt="" />
       </div>
       <a :title="saasTitle" target="_self" class="header-logo-label">
         <span>{{ saasTitle }} </span>
       </a>
-      <div v-if="saasUrl" class="dashboard-home" @click="dashboardHome()">
+      <!-- <div v-if="saasUrl" class="dashboard-home" @click="dashboardHome()">
         <i class="fa-solid fa-house"></i> 工作台
-      </div>
-    </router-link>
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -24,16 +24,16 @@ export default {
   },
   data() {
 
-    let saasTitle = 'AIP智能设施'
+    let saasTitle = 'AIP安装服务'
     let enableLogo = true;
-    let saasUrl = 'http://alinesno-infra-plat-console-admin.beta.plat.infra.linesno.com' ;
-    let saasLogoUrl = 'http://portal.infra.linesno.com/logo.png' ; 
+    // let saasUrl = 'http://alinesno-infra-plat-console-admin.beta.plat.infra.linesno.com' ;
+    let saasLogoUrl = 'http://data.linesno.com/logo_2.png' ; 
     let displayUrl = ''; 
 
 
     return {
       saasTitle,
-      saasUrl,
+      // saasUrl,
       saasLogoUrl,
       enableLogo,
       displayUrl,
