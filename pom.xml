@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.alinesno.infra.common</groupId>
 		<artifactId>alinesno-infra-platform-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -16,19 +16,17 @@
 	<packaging>pom</packaging>
 
 	<properties>
-	
-		<revision>1.0.0-SNAPSHOT</revision>
+		<revision>1.1.0-SNAPSHOT</revision>
 		<alinesno.infra.version>${revision}</alinesno.infra.version>
-		
 	</properties>
 	
 	<modules>
-
 		<module>alinesno-infra-plat-install-facade</module>
 		<module>alinesno-infra-plat-install-domain</module>
-		<module>alinesno-infra-plat-install-gateway</module>
 		<module>alinesno-infra-plat-install-boot</module>
 
+		<!-- 集成 ui -->
+		<module>alinesno-infra-plat-install-ui</module>
 	</modules>
 
 
