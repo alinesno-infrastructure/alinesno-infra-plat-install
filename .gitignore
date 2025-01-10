@@ -5,8 +5,15 @@ _book
 .springBeans
 target
 bin
+node
+dist
+yarn.lock
+package-lock.json
+node_modules
 classpath-data.json
 sts-cache
+.idea
+.flattened-pom.xml
 
 # Compiled class file
 *.class
