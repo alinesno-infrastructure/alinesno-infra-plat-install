@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { saveAs } from 'file-saver'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { blobValidate } from '@/utils/ruoyi'
 
@@ -14,7 +14,7 @@ export default {
       method: 'get',
       url: url,
       responseType: 'blob',
-      headers: { 'Authorization': 'Bearer ' + getToken() }
+      // headers: { 'Authorization': 'Bearer ' + getToken() }
     }).then((res) => {
       const isBlob = blobValidate(res.data);
       if (isBlob) {
@@ -31,7 +31,7 @@ export default {
       method: 'get',
       url: url,
       responseType: 'blob',
-      headers: { 'Authorization': 'Bearer ' + getToken() }
+      // headers: { 'Authorization': 'Bearer ' + getToken() }
     }).then((res) => {
       const isBlob = blobValidate(res.data);
       if (isBlob) {
@@ -48,7 +48,7 @@ export default {
       method: 'get',
       url: url,
       responseType: 'blob',
-      headers: { 'Authorization': 'Bearer ' + getToken() }
+      // headers: { 'Authorization': 'Bearer ' + getToken() }
     }).then((res) => {
       const isBlob = blobValidate(res.data);
       if (isBlob) {
