@@ -17,10 +17,10 @@
 package com.alinesno.infra.business.platform.install.shell.runner;
 
 import com.alinesno.infra.business.platform.install.shell.domain.CmdResult;
-import com.alinesno.infra.business.platform.install.shell.utils.DateUtil;
-import com.alinesno.infra.business.platform.install.shell.utils.SystemUtil;
 import com.alinesno.infra.business.platform.install.shell.utils.CommandUtil.Unix;
 import com.alinesno.infra.business.platform.install.shell.utils.CommandUtil.Windows;
+import com.alinesno.infra.business.platform.install.shell.utils.DateUtil;
+import com.alinesno.infra.business.platform.install.shell.utils.SystemUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
