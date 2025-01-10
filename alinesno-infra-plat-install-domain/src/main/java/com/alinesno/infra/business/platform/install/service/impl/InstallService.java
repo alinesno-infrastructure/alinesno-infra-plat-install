@@ -6,7 +6,6 @@ import com.alinesno.infra.business.platform.install.dto.project.Project;
 import com.alinesno.infra.business.platform.install.service.IInstallService;
 import com.alinesno.infra.business.platform.install.utils.AipConfigDownUtils;
 import com.alinesno.infra.business.platform.install.utils.VersionCtlUtils;
-import com.alinesno.infra.common.core.monitor.Server;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,9 @@ public class InstallService implements IInstallService {
 
         // 下载环境安装文件
         aipConfig.env(installForm.getVersion());
+
+        // 执行安装基础环境(redis/minio/mysql/pgvector/elasticsearch)
+
     }
 
     @Override
@@ -56,8 +58,8 @@ public class InstallService implements IInstallService {
 
         log.debug("检查环境...");
 
-        Server server = new Server();
-        server.copyTo();
+//        Server server = new Server();
+//        server.copyTo();
 
         CheckEnvDto checkEnvDto = new CheckEnvDto();
 
@@ -75,7 +77,7 @@ public class InstallService implements IInstallService {
         KubectlInfoDto kubernetesInfo = VersionCtlUtils.kubernetesInfo() ;
         log.debug("kubernetesInfo:{}" , kubernetesInfo);
 
-        checkEnvDto.setServer(server);
+//        checkEnvDto.setServer(server);
         checkEnvDto.setDockerInfo(dockerInfo);
         checkEnvDto.setDockerComposeInfo(dockerComposeInfo);
         checkEnvDto.setKubernetesInfo(kubernetesInfo);
