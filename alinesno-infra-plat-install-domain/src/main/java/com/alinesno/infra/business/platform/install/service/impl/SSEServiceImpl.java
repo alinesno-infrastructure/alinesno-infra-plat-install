@@ -91,7 +91,7 @@ public class SSEServiceImpl implements ISSEService {
         emitter.send("[DONE]");
 
         // 结束推流
-         emitter.complete();
+        // emitter.complete();
     }
 
     /**
