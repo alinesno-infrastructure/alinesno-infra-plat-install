@@ -11,7 +11,7 @@
 export default {
   data () {
     return {
-      currentApplicationName: '分布式ID服务'
+      currentApplicationName: 'AIP安装服务'
     }
   },
   mounted () {
