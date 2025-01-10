@@ -27,16 +27,16 @@ import Layout from '@/layout/SaaSLayout.vue'
 
 // 公共路由
 export const constantRoutes = [
-  {
-    path: '/login',
-    component: () => import('@/views/login'),
-    hidden: true
-  },
-   {
-     path: '/sso/login',
-     component: () => import('@/views/loginSso'),
-     hidden: true
-   },
+  // {
+  //   path: '/login',
+  //   component: () => import('@/views/login'),
+  //   hidden: true
+  // },
+  //  {
+  //    path: '/sso/login',
+  //    component: () => import('@/views/loginSso'),
+  //    hidden: true
+  //  },
   {
     path: "/:pathMatch(.*)*",
     component: () => import('@/views/error/404'),
@@ -72,87 +72,86 @@ export const constantRoutes = [
       //   name: '/dashboard/serviceList',
       //   meta: { title: '服务列表', icon: 'dashboard', affix: true }
       // },
-      {
-        path: '/dashboard/suportTechnique',
-        component: () => import('@/views/suportTechnique'),
-        name: '/dashboard/suportTechnique',
-        meta: { title: '支持管理', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/dashboard/learnPanel',
-        component: () => import('@/views/learnPanel'),
-        name: '/dashboard/learnPanel',
-        meta: { title: '学习手册', icon: 'dashboard', affix: true }
-      },
+      // {
+      //   path: '/dashboard/suportTechnique',
+      //   component: () => import('@/views/suportTechnique'),
+      //   name: '/dashboard/suportTechnique',
+      //   meta: { title: '支持管理', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/dashboard/learnPanel',
+      //   component: () => import('@/views/learnPanel'),
+      //   name: '/dashboard/learnPanel',
+      //   meta: { title: '学习手册', icon: 'dashboard', affix: true }
+      // },
 
       // ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      {
-        path: '/createGateway',
-        name: 'createGateway',
-        hidden: true,
-        component: () => import('@/views/gateway/createGateway'),
-        meta: { title: '创建网关服务', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/gatewayTopology',
-        name: 'gatewayTopology',
-        hidden: true,
-        component: () => import('@/views/gateway/gatewayTopology'),
-        meta: { title: '网关路由拓扑结构', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/createClient',
-        name: 'createClient',
-        hidden: true,
-        component: () => import('@/views/gateway/createClient'),
-        meta: { title: '创建客户端', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/addGatewayClient',
-        name: 'addGatewayClient',
-        hidden: true,
-        component: () => import('@/views/gateway/addGatewayClient'),
-        meta: { title: '添加网关客户端', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/addClientGateway',
-        name: 'addClientGateway',
-        hidden: true,
-        component: () => import('@/views/gateway/addClientGateway'),
-        meta: { title: '添加客户端网关', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/addGroovyScript',
-        name: 'addGroovyScript',
-        hidden: true,
-        component: () => import('@/views/gateway/addGroovyScript'),
-        meta: { title: '添加规则组件', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/createBalanced',
-        name: 'createBalanced',
-        hidden: true,
-        component: () => import('@/views/gateway/createBalanced'),
-        meta: { title: '创建负载均衡', icon: 'dashboard', affix: true }
-      },
-
+      // {
+      //   path: '/createGateway',
+      //   name: 'createGateway',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/createGateway'),
+      //   meta: { title: '创建网关服务', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/gatewayTopology',
+      //   name: 'gatewayTopology',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/gatewayTopology'),
+      //   meta: { title: '网关路由拓扑结构', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/createClient',
+      //   name: 'createClient',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/createClient'),
+      //   meta: { title: '创建客户端', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/addGatewayClient',
+      //   name: 'addGatewayClient',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/addGatewayClient'),
+      //   meta: { title: '添加网关客户端', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/addClientGateway',
+      //   name: 'addClientGateway',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/addClientGateway'),
+      //   meta: { title: '添加客户端网关', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/addGroovyScript',
+      //   name: 'addGroovyScript',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/addGroovyScript'),
+      //   meta: { title: '添加规则组件', icon: 'dashboard', affix: true }
+      // },
+      // {
+      //   path: '/createBalanced',
+      //   name: 'createBalanced',
+      //   hidden: true,
+      //   component: () => import('@/views/gateway/createBalanced'),
+      //   meta: { title: '创建负载均衡', icon: 'dashboard', affix: true }
+      // },
 
     ]
   },
-  {
-    path: '/user',
-    component: Layout,
-    hidden: true,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'profile',
-        component: () => import('@/views/system/user/profile/index'),
-        name: 'Profile',
-        meta: { title: '个人中心', icon: 'user' }
-      }
-    ]
-  }
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   hidden: true,
+  //   redirect: 'noredirect',
+  //   children: [
+  //     {
+  //       path: 'profile',
+  //       component: () => import('@/views/system/user/profile/index'),
+  //       name: 'Profile',
+  //       meta: { title: '个人中心', icon: 'user' }
+  //     }
+  //   ]
+  // }
 ]
 
 // 动态路由，基于用户权限动态去加载
