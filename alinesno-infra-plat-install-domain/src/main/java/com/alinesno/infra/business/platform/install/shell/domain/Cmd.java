@@ -16,10 +16,10 @@
 
 package com.alinesno.infra.business.platform.install.shell.domain;
 
+import com.google.common.collect.Sets;
+
 import java.time.ZonedDateTime;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 /**
  * Command object to communicate between c/s
