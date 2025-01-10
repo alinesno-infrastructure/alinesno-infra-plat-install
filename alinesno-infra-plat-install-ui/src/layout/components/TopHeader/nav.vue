@@ -1,16 +1,18 @@
 <template>
   <nav class=" header-text">
+
     <div class="acp-header-item ">
       <router-link class="header-label-text" to="/index">
-        <i class="fa-solid fa-screwdriver-wrench"></i> 控制台
+        <i class="fa-solid fa-screwdriver-wrench"></i> 官网 
       </router-link>
     </div>
     <div class="acp-header-item ">
       <router-link class="header-label-text" to="/dashboard/learnPanel">
-        <i class="fa-regular fa-file-word"></i> 手册
+        <i class="fa-regular fa-file-word"></i> 安装文档 
       </router-link>
     </div>
-    <div class="acp-header-item ">
+
+    <!-- <div class="acp-header-item ">
       <router-link class="header-label-text" to="/dashboard/smartService">
         <i class="fa-solid fa-swatchbook"></i> 专家 
       </router-link>
@@ -19,9 +21,9 @@
       <router-link class="header-label-text" to="/dashboard/suportTechnique">
         <i class="fa-solid fa-user-tag"></i> 服务
       </router-link>
-    </div>
+    </div> -->
 
-    <el-dropdown size="mini">
+    <!-- <el-dropdown size="mini">
       <div class="acp-header-item " style="display: flex">
         <a class="header-label-text">
           <i class="fa-solid fa-shield-halved"></i>
@@ -84,7 +86,7 @@
 
         </el-dropdown-menu>
       </template>
-    </el-dropdown>
+    </el-dropdown> -->
 
   </nav>
 </template>
