@@ -118,7 +118,7 @@ public class VersionCtlUtils {
 
 		Runtime runtime = Runtime.getRuntime();
 		try {
-			Process process = runtime.exec("ping " + "www.baidu.com");
+			Process process = runtime.exec("ping -c 4 " + "www.baidu.com");
 			InputStream is = process.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
