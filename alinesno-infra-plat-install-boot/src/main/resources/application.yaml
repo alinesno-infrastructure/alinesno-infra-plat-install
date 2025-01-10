@@ -1,0 +1,19 @@
+server:
+  port: 28080 
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: alinesno-infra-plat-install-boot
+  devtools:
+    restart:
+      enabled: false
+  mvc:
+    async:
+      request-timeout: 3600000
+
+# 调度模式
+alinesno:
+  dev:
+    model: true
