@@ -16,11 +16,7 @@
 
 package com.alinesno.infra.business.platform.install.shell.domain;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Only include basic properties of command
