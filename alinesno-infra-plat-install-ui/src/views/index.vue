@@ -2,36 +2,29 @@
   <div class="app-container acp-dashboard">
 
     <el-row>
-    <el-col :span="24">
-      <div class="aip-appinfo-header">
-        <div class="header-icon-banner">
-          <i class="fa-brands fa-css3"></i>
-        </div>
-        <div class="icon">
-          <div class="title">
-                {{ currentEnvClusterObj.appName }}
-            <div class="cluster-info">
-              <span><i class="el-icon-monitor"></i>
-                {{ currentEnvClusterObj.clusterName }}
-              </span>
+      <el-col :span="24">
+        <div class="aip-appinfo-header">
+          <div class="header-icon-banner">
+            <i class="fa-brands fa-css3"></i>
+          </div>
+          <div class="icon">
+            <div class="title">
+              {{ currentEnvClusterObj.appName }}
+              <div class="cluster-info">
+                <span><i class="el-icon-monitor"></i>
+                  {{ currentEnvClusterObj.clusterName }}
+                </span>
+              </div>
+            </div>
+            <div class="title-desc">
+              {{ currentEnvClusterObj.desc }}
             </div>
           </div>
-          <div class="title-desc">
-            {{ currentEnvClusterObj.desc }}
-          </div>
         </div>
-      </div>
-    </el-col>
-  </el-row>
+      </el-col>
+    </el-row>
 
-    <!-- 应用统计 -->
     <OperationWorkspaceCountStaitcs />
-
-    <!-- 应用套件和状态 -->
-    <!-- <OperationWorkspaceService /> -->
-
-    <!-- 运行应用列表 -->
-    <OperationWorkspaceApps />
 
   </div>
 </template>
@@ -39,24 +32,21 @@
 <script setup name="Index">
 
 
-import OperationWorkspaceCountStaitcs from './operation-workspace/countStatics.vue'
-import OperationWorkspaceApps from './operation-workspace/apps.vue'
-// import OperationWorkspaceService from './operation-workspace/service.vue'
+import OperationWorkspaceCountStaitcs from './business.vue'
 
 const currentEnvClusterObj = ref({
-  appName : '分布式ID服务'  ,
-  clusterName: '代码/插件/模型等多插件生成机制'  ,
-  apiServerUrl: 'http://portal.infra.linesno.com',
-  desc: '自动创建项目的基础结构和初始代码，生成符合特定需求和技术栈的项目模板。'
+  appName: 'AIP安装服务',
+  clusterName: '基于Kubernetes环境和DockerCompose环境的安装环境',
+  desc: '本安装环境支持在Kubernetes集群及Docker Compose两种环境下部署应用程序'
 })
 
 </script>
 
 
 <style lang="scss" scoped>
-.aip-appinfo-header{
+.aip-appinfo-header {
   position: relative;
-  padding: 20px;
+  padding: 10px;
   overflow: hidden;
 
   .header-icon-banner {
@@ -66,7 +56,7 @@ const currentEnvClusterObj = ref({
     color: #3b5998;
   }
 
-  .head-app-status{
+  .head-app-status {
     float: right;
     font-size: 14px;
     line-height: 1.7rem;
@@ -77,13 +67,15 @@ const currentEnvClusterObj = ref({
       margin-left: 10px;
       float: right;
 
-      ul , li {
+      ul,
+      li {
         margin: 0px;
         padding: 0px;
         list-style: none;
       }
+
       li {
-        float:right ;
+        float: right;
         margin-right: 10px;
 
         img {
