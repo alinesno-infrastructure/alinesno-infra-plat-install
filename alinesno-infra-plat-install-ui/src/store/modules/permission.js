@@ -1,6 +1,6 @@
 import auth from '@/plugins/auth'
 import router, { constantRoutes, dynamicRoutes } from '@/router'
-import { getRouters } from '@/api/menu'
+// import { getRouters } from '@/api/menu'
 import Layout from '@/layout/SaaSLayout'
 import ParentView from '@/components/ParentView'
 import InnerLink from '@/layout/components/InnerLink'
@@ -35,21 +35,21 @@ const usePermissionStore = defineStore(
       generateRoutes(roles) {
         return new Promise(resolve => {
           // 向后端请求路由数据
-          getRouters().then(res => {
-            const sdata = JSON.parse(JSON.stringify(res.data))
-            const rdata = JSON.parse(JSON.stringify(res.data))
-            const defaultData = JSON.parse(JSON.stringify(res.data))
-            const sidebarRoutes = filterAsyncRouter(sdata)
-            const rewriteRoutes = filterAsyncRouter(rdata, false, true)
-            const defaultRoutes = filterAsyncRouter(defaultData)
-            const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
-            asyncRoutes.forEach(route => { router.addRoute(route) })
-            this.setRoutes(rewriteRoutes)
-            this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
-            this.setDefaultRoutes(sidebarRoutes)
-            this.setTopbarRoutes(defaultRoutes)
-            resolve(rewriteRoutes)
-          })
+          // getRouters().then(res => {
+          //   const sdata = JSON.parse(JSON.stringify(res.data))
+          //   const rdata = JSON.parse(JSON.stringify(res.data))
+          //   const defaultData = JSON.parse(JSON.stringify(res.data))
+          //   const sidebarRoutes = filterAsyncRouter(sdata)
+          //   const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+          //   const defaultRoutes = filterAsyncRouter(defaultData)
+          //   const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
+          //   asyncRoutes.forEach(route => { router.addRoute(route) })
+          //   this.setRoutes(rewriteRoutes)
+          //   this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
+          //   this.setDefaultRoutes(sidebarRoutes)
+          //   this.setTopbarRoutes(defaultRoutes)
+          //   resolve(rewriteRoutes)
+          // })
         })
       }
     }
