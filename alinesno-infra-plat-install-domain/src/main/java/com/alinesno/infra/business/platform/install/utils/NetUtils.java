@@ -80,9 +80,7 @@ public class NetUtils {
 			log.info("下载地址是：" + dowUrl + ",存储地址是：" + dowPath);
 			BufferedInputStream bin = getBufferedInputStream(dowUrl);
 
-			String path = dowPath;// 指定存放位置
-			File filed = new File(path);
-
+			File filed = new File(dowPath);
 			OutputStream out = new FileOutputStream(filed);
 			int size = 0;
 
