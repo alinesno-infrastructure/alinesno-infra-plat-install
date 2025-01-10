@@ -122,13 +122,13 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-
     nextTick(() => {
         loading = ElLoading.service({
-        lock: true,
-        text: 'Loading',
-        background: 'rgba(0, 0, 0, 0.7)',
+            lock: true,
+            text: 'Loading',
+            background: 'rgba(0, 0, 0, 0.7)',
         })
+        console.info("初始化界面.");
         startInstallation();
     });
 });
