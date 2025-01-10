@@ -11,7 +11,7 @@ public interface Const {
 	/**
 	 * 下载地址
 	 */
-	String qiniuDomain = "http://data.linesno.com/aip-install/";
+	String qiniuDomain = "http://data.linesno.com/aip-install";
 
 //	String DIR_K8S = "kubernetes" ;
 //	String DIR_DOCKER = "docker" ;
