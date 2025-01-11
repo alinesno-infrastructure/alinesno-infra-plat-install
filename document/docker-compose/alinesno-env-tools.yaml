@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  redis:
+    image: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-base/redis:5.0.3-8.6
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]  # 使用环境变量传递Redis密码
+    # Redis 是一个开源的内存数据结构存储，用作数据库、缓存和消息中间件。
+    ports:
+      - "16379:6379"  # 将主机的16379端口映射到容器内的6379端口，用于Redis客户端连接
+    volumes:
+      - ./aip-env/data/redis:/var/lib/redis  # 持久化存储Redis数据
+
+  mysql:
+    image: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-base/mysql:8.0.36
+    command: ["mysqld", "--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"  # 使用环境变量传递MySQL root密码
+      MYSQL_DATABASE: "alinesno_database"
+    # MySQL 是一个关系型数据库管理系统（RDBMS），广泛用于Web应用程序的数据存储。
+    ports:
+      - "13306:3306"  # 将主机的13306端口映射到容器内的3306端口，用于MySQL客户端连接
+    volumes:
+      - ./aip-env/data/mysql:/var/lib/mysql  # 持久化存储MySQL数据
+
+  pgvector:
+    image: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-base/pgvector:v0.7.0
+    environment:
+      POSTGRES_USER: "username"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"  # 使用环境变量传递PostgreSQL密码
+      POSTGRES_DB: "postgres"
+    # PostgreSQL 是一个强大的开源对象关系型数据库系统，pgvector是其扩展之一，
+    # 提供了向量相似度搜索的功能，适用于机器学习应用中的相似性匹配。
+    ports:
+      - "15432:5432"  # 将主机的15432端口映射到容器内的5432端口，用于PostgreSQL客户端连接
+    volumes:
+      - ./aip-env/data/pgvector:/var/lib/postgresql/data  # 持久化存储PostgreSQL数据
+
+  minio:
+    image: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-base/minio:20250110
+    command: ["server", "/data"]
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"  # 使用环境变量传递MinIO用户名
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"  # 使用环境变量传递MinIO密码
+    # MinIO 是一个高性能的对象存储系统，兼容Amazon S3 API，常用于存储大量非结构化数据。
+    ports:
+      - "19000:9000"  # 将主机的19000端口映射到容器内的9000端口，用于MinIO API访问
+      - "19001:9001"  # 将主机的19001端口映射到容器内的9001端口，用于MinIO管理控制台
+    volumes:
+      - ./aip-env/data/minio:/data  # 持久化存储MinIO数据
+
+  elasticsearch:
+    image: registry.cn-shenzhen.aliyuncs.com/alinesno-infra-base/elasticsearch:8.5.2
+    environment:
+      discovery.type: "single-node"  # 配置为单节点集群
+      ELASTIC_PASSWORD: "${BOOTSTRAP_PASSWORD}"  # 使用环境变量传递Elasticsearch密码
+      network.host: "0.0.0.0"  # 允许从任何IP地址连接到Elasticsearch
+      xpack.security.enabled: "true"  # 启用X-Pack安全特性
+    # Elasticsearch 是一个分布式搜索引擎和分析引擎，适用于全文搜索、日志分析等场景。
+    ports:
+      - "19200:9200"  # 将主机的19200端口映射到容器内的9200端口，用于Elasticsearch HTTP RESTful API
+      - "19300:9300"  # 将主机的19300端口映射到容器内的9300端口，用于Elasticsearch节点间通信（Transport API）
+    volumes:
+      - ./aip-env/data/elasticsearch:/usr/share/elasticsearch/data  # 持久化存储Elasticsearch数据
