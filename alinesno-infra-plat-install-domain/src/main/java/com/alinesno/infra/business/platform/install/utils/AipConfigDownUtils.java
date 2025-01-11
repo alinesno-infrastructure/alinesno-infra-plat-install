@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * AIP下载工具类
@@ -37,7 +39,9 @@ public class AipConfigDownUtils {
         return JSONObject.parseObject(aipConfigJsonStr , AipBean.class);
     }
 
-    public void downloadProjectYaml(String version , String name) throws IOException{
+    public List<String> downloadProjectYaml(String version , String name) throws IOException{
+
+        List<String> projectFileList = new ArrayList<>() ;
 
         String projectDir = installPath + File.separator + name ;
         FileUtils.forceMkdir(new File(projectDir)) ;
@@ -45,26 +49,40 @@ public class AipConfigDownUtils {
         String bootDownloadUrl = Const.qiniuDomain + File.separator + version + File.separator + name + File.separator +"kubernetes-dev.yaml" ;
         String uiDownloadUrl = Const.qiniuDomain + File.separator + version + File.separator + name + File.separator +"kubernetes-admin-dev.yaml" ;
 
-        NetUtils.download(bootDownloadUrl , projectDir + File.separator + "kubernetes-dev.yaml");
-        NetUtils.download(uiDownloadUrl , projectDir + File.separator + "kubernetes-admin-dev.yaml");
+        String bootFileName = projectDir + File.separator + "kubernetes-dev.yaml" ;
+        String uiFileName = projectDir + File.separator + "kubernetes-admin-dev.yaml" ;
+
+        NetUtils.download(bootDownloadUrl , bootFileName) ;
+        NetUtils.download(uiDownloadUrl , uiFileName) ;
 
         log.debug("下载项目:{}文件成功:{}" , name , projectDir);
+
+        projectFileList.add(bootFileName) ;
+        projectFileList.add(uiFileName) ;
+
+        return projectFileList ;
     }
 
-    public void database(String version) {
+    public String database(String version) {
         log.debug("开始下载数据库文件...");
         String downloadUrl = Const.qiniuDomain + File.separator + version + "/alinesno-database.sql" ;
+        String fileName = installPath + File.separator + "alinesno-database.sql" ;
 
         log.debug("开始下载配置文件:{}" , downloadUrl);
-        NetUtils.download(downloadUrl, installPath + File.separator + "alinesno-database.sql") ;
+        NetUtils.download(downloadUrl, fileName) ;
         log.debug("下载配置文件成功:{}" , installPath);
+
+        return fileName ;
     }
 
-    public void env(String version) {
+    public String env(String version) {
         String downloadUrl = Const.qiniuDomain + File.separator + version + "/alinesno-env-tools.yaml" ;
+        String fileName = installPath + File.separator + "alinesno-env-tools.yaml" ;
 
         log.debug("开始下载配置文件:{}" , downloadUrl);
-        NetUtils.download(downloadUrl, installPath + File.separator + "alinesno-env-tools.yaml") ;
+        NetUtils.download(downloadUrl,fileName) ;
         log.debug("下载配置文件成功:{}" , installPath);
+
+        return fileName ;
     }
 }
