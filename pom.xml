@@ -25,8 +25,9 @@
 		<module>alinesno-infra-plat-install-domain</module>
 		<module>alinesno-infra-plat-install-boot</module>
 
-		<!-- 集成 ui -->
+		<!-- 集成 ui
 		<module>alinesno-infra-plat-install-ui</module>
+		-->
 	</modules>
 
 
