@@ -182,6 +182,7 @@ onMounted(() => {
 .log-entry {
     margin-bottom: 5px;
     border-radius: 3px;
+    font-size:12px;
 }
 
 .debug {
