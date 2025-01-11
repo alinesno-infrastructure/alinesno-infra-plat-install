@@ -65,4 +65,15 @@ public class InstallForm {
      */
     private boolean isEncrypt;
 
+    // 增加redis密码/minio密码/pgvector密码/elasticsearch密码/mysql密码
+    private String redisPassword;
+
+    private String minioPassword;
+
+    private String pgvectorPassword;
+
+    private String elasticsearchPassword;
+
+    private String mysqlPassword;
+
 }
