@@ -3,6 +3,7 @@ package com.alinesno.infra.business.platform.install.rest;
 import com.alinesno.infra.business.platform.install.dto.CheckEnvDto;
 import com.alinesno.infra.business.platform.install.dto.InstallForm;
 import com.alinesno.infra.business.platform.install.service.IInstallService;
+import com.alinesno.infra.business.platform.install.session.InstallConfigManager;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ public class InstallConfigController {
     @PostMapping("/submit")
     public AjaxResult submitInstallConfig(@Valid @RequestBody InstallForm installForm) {
         try {
-            Thread.sleep(2000);
+            // 保存配置到配置管理器
+            InstallConfigManager.getInstance().setInstallConfig(installForm);
+
             log.debug("Received install configuration: " + installForm);
 
             log.debug("开始安装程序...");
