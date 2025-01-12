@@ -51,7 +51,7 @@
             <el-divider content-position="left" style="width:90%">安装环境</el-divider>
             <el-form-item label="选择安装环境" prop="envType">
               <el-radio-group v-model="installForm.envType">
-                <el-radio label="Kubernetes">Kubernetes环境</el-radio>
+                <el-radio label="Kubernetes" disabled="disabled">Kubernetes环境</el-radio>
                 <el-radio label="DockerCompose">Docker Compose环境</el-radio>
               </el-radio-group>
             </el-form-item>
@@ -105,7 +105,7 @@ const isEnvValid = ref(false); // Environment validation flag
 const installForm = reactive({
   version: '1.1.0-SNAPSHOT', // Default version
   apiKey: '',
-  envType: 'Kubernetes', // Default value
+  envType: 'DockerCompose', // Default value
   adminUsername: '',
   adminPassword: '',
   serverIp: '',
