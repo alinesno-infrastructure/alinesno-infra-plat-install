@@ -262,6 +262,7 @@ public final class CmdExecutor {
         } catch (InterruptedException ignore) {
             log.warn(ignore.getMessage());
         } catch (Throwable e) {
+            e.printStackTrace();
             outputResult.getExceptions().add(e);
             outputResult.setFinishTime(DateUtil.now());
             procListener.onException(outputResult);
