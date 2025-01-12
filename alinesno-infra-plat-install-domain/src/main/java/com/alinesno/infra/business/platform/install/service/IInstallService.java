@@ -15,12 +15,6 @@ public interface IInstallService {
     void install(InstallForm installForm);
 
     /**
-     * 通过k8s安装
-     * @param installForm
-     */
-    void installByK8s(InstallForm installForm);
-
-    /**
      * 检查环境
      *
      * @return
