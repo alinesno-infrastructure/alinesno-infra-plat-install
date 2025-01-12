@@ -72,7 +72,7 @@ const renderLogs = async () => {
 
         // 创建日志条目元素并设置文本内容
         const logMessage = document.createElement('div');
-        logMessage.textContent = (logJson.timestamp + " " + logJson.body + " " + logJson.level + " " + logJson.className);
+        logMessage.textContent = (logJson.timestamp + "["+ logJson.level +"]" + logJson.body) ; 
 
         // 添加通用的日志条目样式
         logMessage.classList.add('log-entry');
