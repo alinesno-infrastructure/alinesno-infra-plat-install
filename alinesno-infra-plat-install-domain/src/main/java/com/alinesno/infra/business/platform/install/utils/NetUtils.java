@@ -1,6 +1,7 @@
 package com.alinesno.infra.business.platform.install.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -81,6 +82,12 @@ public class NetUtils {
 			BufferedInputStream bin = getBufferedInputStream(dowUrl);
 
 			File filed = new File(dowPath);
+
+			File parentFile = filed.getParentFile() ;
+			if(!parentFile.exists()){
+				FileUtils.forceMkdir(parentFile) ;
+			}
+
 			OutputStream out = new FileOutputStream(filed);
 			int size = 0;
 
@@ -100,6 +107,7 @@ public class NetUtils {
 			log.error("下载地址有误：" + e.getMessage());
 			return "500";
 		} catch (IOException e) {
+			e.printStackTrace();
 			log.error("下载文件时发生错误：" + e.getMessage());
 			return "400";
 		}
@@ -175,7 +183,7 @@ public class NetUtils {
 		String userHomeDir = System.getProperty("user.home");
 		String installPath = userHomeDir + File.separator + ".aip-install";
 		
-		log.info("ACP安装目录:{}" , installPath);
+		log.info("AIP安装目录:{}" , installPath);
 
 		return installPath;
 	}
