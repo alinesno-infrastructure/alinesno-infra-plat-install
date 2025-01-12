@@ -31,7 +31,7 @@ public class InstallConfigController {
             log.debug("Received install configuration: " + installForm);
 
             log.debug("开始安装程序...");
-            installerService.installByK8s(installForm);
+            installerService.install(installForm);
             log.debug("安装程序安装完成！");
 
             return AjaxResult.success() ;
