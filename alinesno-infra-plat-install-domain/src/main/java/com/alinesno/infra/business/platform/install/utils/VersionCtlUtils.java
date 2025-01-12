@@ -3,14 +3,13 @@ package com.alinesno.infra.business.platform.install.utils;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.RuntimeUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.alinesno.infra.business.platform.install.dto.DockerComposeInfoDto;
-import com.alinesno.infra.business.platform.install.dto.DockerInfoDto;
-import com.alinesno.infra.business.platform.install.dto.KubectlInfoDto;
-import com.alinesno.infra.business.platform.install.dto.NetInfoDto;
+import com.alinesno.infra.business.platform.install.dto.*;
+import com.alinesno.infra.business.platform.install.dto.project.Project;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 
 /**
