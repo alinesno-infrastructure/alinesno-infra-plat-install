@@ -1,19 +1,17 @@
 package com.alinesno.infra.business.platform.install.utils;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.lang.exception.RpcServiceRuntimeException;
-
+import com.alinesno.infra.business.platform.install.dto.InstallForm;
+import com.alinesno.infra.business.platform.install.dto.project.Project;
+import com.alinesno.infra.common.core.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 数据库工具类
@@ -27,92 +25,71 @@ public class DatabaseUtils {
 	private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver" ;
 
 	/**
-	 * 创建数据库
-	 */
-	public static void createDatabase(String databaseName) {
-		
-//		String dbUrl = Db.Config.get(Const.CONFIG_MYSQL_URL) ;
-//		String user = Db.Config.get(Const.CONFIG_MYSQL_USERNAME) ;
-//		String pass = Db.Config.get(Const.CONFIG_MYSQL_PASSWORD) ;
-//
-//		Connection conn = null;
-//		Statement stmt = null;
-//		try {
-//			Class.forName(DRIVER_NAME);
-//			log.debug("连接数据库:{}..." , dbUrl);
-//
-//			conn = DriverManager.getConnection(dbUrl, user, pass);
-//
-//			log.debug("创建服务[{}]数据库 :[{}] ..." , acp.getAppName() , acp.getDatabaseName());
-//			stmt = conn.createStatement();
-//
-//			String sql = "create database if not exists " + acp.getDatabaseName() + " default character set utf8mb4 collate utf8mb4_unicode_ci;";
-//			stmt.executeUpdate(sql);
-//
-//			log.debug("创建服务[{}]数据库 :[{}] 成功" , acp.getAppName() , acp.getDatabaseName());
-//		} catch (Exception e) {
-//			log.error("创建服务[{"+acp.getAppName()+"}]数据库["+ acp.getDatabaseName() +"]创建失败");
-//			throw new RpcServiceRuntimeException("创建服务[{"+acp.getAppName()+"}]数据库["+ acp.getDatabaseName() +"]创建失败") ;
-//		} finally {
-//			try {
-//				if (stmt != null)
-//					stmt.close();
-//			} catch (SQLException se2) {
-//			} // nothing we can do
-//			try {
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//				se.printStackTrace();
-//			}
-//		}
-	}
-
-	/**
 	 * 导入数据库脚本
 	 * 
-	 * @param sqlFilename
 	 */
-	public static void importDatabase(String sqlFilename) {
+	public static void getConnectDatabase(String sqlFilename) {
 		
-//		// TODO  待优化，只需要1个connect即可
-//		String dbUrl = Db.Config.get(Const.CONFIG_MYSQL_URL) ;
-//		String user = Db.Config.get(Const.CONFIG_MYSQL_USERNAME) ;
-//		String pass = Db.Config.get(Const.CONFIG_MYSQL_PASSWORD) ;
-//
-//		StringBuffer dbUrlBuffer = new StringBuffer() ;
-//		dbUrlBuffer.append(dbUrl) ;
-//		dbUrlBuffer.append(acp.getDatabaseName()) ;
-//		dbUrlBuffer.append("?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT") ;
-//
-//		log.debug("连接服务[{}]数据库:{} , url:{}" , acp.getAppName() , acp.getDatabaseName() , dbUrlBuffer.toString());
-//
-//		Connection conn = null;
-//		try {
-//			Class.forName(DRIVER_NAME);
-//			log.debug("连接数据库:{}..." , dbUrl);
-//
-//			conn = DriverManager.getConnection(dbUrlBuffer.toString() , user, pass);
-//
-//			Resource rc = new  FileUrlResource(installFile + sqlFilename) ;
-//			log.debug("导入服务[{}]数据库:{}" , acp.getAppName() , acp.getDatabaseName());
-//			ScriptUtils.executeSqlScript(conn, rc);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new RpcServiceRuntimeException("导入服务[{"+acp.getAppName()+"}]数据库["+ dbUrl +"]导入失败") ;
-//		}finally {
-//			try {
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//				se.printStackTrace();
-//			}
-//		}
+		String dbUrl = "jdbc:mysql://localhost:13306/alinesno_database" ;
+		String user = "root";
+		String pass = "aip@mysql" ;
+
+		StringBuffer dbUrlBuffer = new StringBuffer() ;
+		dbUrlBuffer.append(dbUrl) ;
+		dbUrlBuffer.append("?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT&useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10") ;
+
+		log.debug("连接服务数据库url:{}" , dbUrlBuffer) ;
+
+		Connection conn = null;
+		try {
+			Class.forName(DRIVER_NAME);
+			log.debug("连接数据库:{}..." , dbUrl);
+
+			conn = DriverManager.getConnection(dbUrlBuffer.toString() , user, pass);
+
+			Resource rc = new FileUrlResource(sqlFilename) ;
+			log.debug("导入服务数据库:{}" , sqlFilename);
+
+			ScriptUtils.executeSqlScript(conn, rc);
+
+		} catch (Exception e) {
+			log.error("连接数据库异常" , e);
+			throw new RuntimeException("连接数据库异常") ;
+		}finally {
+			if(conn != null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					log.error("关闭数据库连接异常" , e);
+				}
+			}
+		}
+
 	}
 
-//	public static void importDatabase(AIP acp , String installFile) {
-//		installFile += File.separator + Const.DIR_SQL + File.separator ;
-//		importDatabase(acp , acp.getSqlFilename() , installFile) ;
+	public static void initDatabase(InstallForm installForm, List<Project> projectYamlList) {
+
+
+		try{
+			for(Project project : projectYamlList){
+
+				String sqlFilename = project.getDatabaseSqlPath() ;
+				if(StringUtils.isNotEmpty(sqlFilename)){
+					getConnectDatabase(sqlFilename) ;
+					Thread.sleep(1000) ;
+				}
+			}
+		}catch(Exception e){
+			log.error("导入数据库异常" , e);
+			throw new RuntimeException("连接数据库异常") ;
+		}
+
+	}
+
+//	@SneakyThrows
+//	public static void main(String[] args) {
+//		Connection con =  getConnectDatabase() ;
+//		System.out.println("connection = " + con.isValid(10000));
 //	}
 
 }
