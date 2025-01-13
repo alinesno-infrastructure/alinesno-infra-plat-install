@@ -29,7 +29,6 @@ public class VersionCtlUtils {
 	public static DockerComposeInfoDto dockerComposeInfo() {
 
 		String infoStr = RuntimeUtil.execForStr("docker-compose -v");
-
 		DockerComposeInfoDto info = new DockerComposeInfoDto();
 		info.setInfo(infoStr);
 
@@ -69,7 +68,8 @@ public class VersionCtlUtils {
 
 			log.debug("info = {}", info);
 		} catch (IORuntimeException | IOException e) {
-			log.error("获取到Docker信息时发生错误：" + e.getMessage(), e);
+			log.error("获取到Docker信息时发生错误:" + e.getMessage(), e);
+			throw new RuntimeException("请确认本地是否安装Docker环境") ;
 		}
 
         return info;
