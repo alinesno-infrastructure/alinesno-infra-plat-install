@@ -1,14 +1,9 @@
 package com.alinesno.infra.business.platform.install.service.impl;
 
 import com.alinesno.infra.business.platform.install.dto.*;
-import com.alinesno.infra.business.platform.install.shell.domain.CmdResult;
-import com.alinesno.infra.business.platform.install.shell.runner.LogListener;
-import com.alinesno.infra.business.platform.install.shell.runner.ProcListener;
 import com.alinesno.infra.business.platform.install.utils.VersionCtlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import javax.lang.exception.RpcServiceRuntimeException;
 
 @Slf4j
 @Service
@@ -146,7 +141,7 @@ public class KubernetesInstallServiceImpl extends ParentInstall {
 //        return shell ;
 //    }
     @Override
-    public CheckEnvDto checkEnvironment() throws Exception {
+    public CheckEnvDto checkEnvironment(String envType) throws Exception {
 
         // 检查网络是否正常
         // 检查磁盘空间是否足够
