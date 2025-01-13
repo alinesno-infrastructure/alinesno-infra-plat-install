@@ -19,5 +19,5 @@ public interface IInstallService {
      *
      * @return
      */
-    CheckEnvDto checkEnvironment() throws Exception;
+    CheckEnvDto checkEnvironment(String envType) throws Exception;
 }
