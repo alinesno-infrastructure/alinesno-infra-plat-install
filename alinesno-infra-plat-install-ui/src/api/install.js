@@ -11,9 +11,9 @@ export function install(data) {
 }
 
 // 检查安装环境
-export function checkEnv() {
+export function checkEnv(envType) {
   return request({
-    url: '/api/install/check-environment',
+    url: '/api/install/check-environment?envType=' + envType ,
     method: 'get'
   })
 }
