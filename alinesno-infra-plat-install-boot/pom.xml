@@ -33,12 +33,15 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- sprigboot 打包组件 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<finalName>${project.artifactId}-${project.version}</finalName> <!-- 设置最终构建的文件名 -->
+					<outputDirectory>${project.basedir}/dist</outputDirectory> <!-- 指定输出目录 -->
+				</configuration>
             </plugin>
         </plugins>
     </build>
