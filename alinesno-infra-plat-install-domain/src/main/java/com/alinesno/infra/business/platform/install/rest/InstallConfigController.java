@@ -42,10 +42,9 @@ public class InstallConfigController {
     }
 
     @GetMapping("/check-environment")
-    public AjaxResult checkEnvironment() {
+    public AjaxResult checkEnvironment(String envType) {
         try {
-            CheckEnvDto  dto = installerService.checkEnvironment();
-
+            CheckEnvDto  dto = installerService.checkEnvironment(envType);
             log.debug("环境检查结束！") ;
 
             return AjaxResult.success(dto) ;
