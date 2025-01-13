@@ -4,27 +4,22 @@ import com.alinesno.infra.business.platform.install.dto.*;
 import com.alinesno.infra.business.platform.install.dto.project.Project;
 import com.alinesno.infra.business.platform.install.shell.domain.CmdResult;
 import com.alinesno.infra.business.platform.install.shell.runner.CmdExecutor;
+import com.alinesno.infra.business.platform.install.shell.utils.SystemUtil;
 import com.alinesno.infra.business.platform.install.utils.DatabaseUtils;
 import com.alinesno.infra.business.platform.install.utils.NetUtils;
 import com.alinesno.infra.business.platform.install.utils.VersionCtlUtils;
+import com.alinesno.infra.common.core.monitor.Server;
+import com.alinesno.infra.common.core.monitor.server.Mem;
+import com.alinesno.infra.common.core.monitor.server.Sys;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
+import org.springframework.util.Assert;
 
 import javax.lang.exception.RpcServiceRuntimeException;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -36,17 +31,35 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
     public void installByDockerCompose(InstallForm installForm) {
         List<Project> projectYamlList = getProjectYamlList(installForm);
 
+        printStep("安装基础工具开始.");
         // 安装基础工具
         installTools();
+        printStep("安装基础工具结束.");
 
         // 初始化数据库脚本
+        printStep("初始化数据库脚本开始.");
         DatabaseUtils.initDatabase(installForm , projectYamlList) ;
+        printStep("初始化数据库脚本结束.");
 
         String installFilePath = NetUtils.getInstallFile() ;
 
         for (Project project : projectYamlList) {
+            printStep("安装项目【"+project.getDesc()+"】开始.");
             runProject(project, installFilePath);
+            printStep("安装项目【"+project.getDesc()+"】结束.");
         }
+
+        // 下面是访问地址:
+        log.debug("");
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        log.info("AIP平台访问入口: http://{}:30109" , installForm.getServerIp());
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    }
+
+    private void printStep(String step){
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        log.info("开始安装:{}" ,step) ;
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
     private static void runProject(Project project, String installFilePath) {
@@ -104,9 +117,17 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
     }
 
     @Override
-    public CheckEnvDto checkEnvironment() throws Exception {
+    public CheckEnvDto checkEnvironment(String envType) throws Exception {
 
         log.debug("检查环境...");
+        Assert.isTrue(!SystemUtil.isWindows() , "请使用Linux环境安装");
+
+        // 检查内存还有硬盘是否满足
+        log.debug("检查内存是否满足...");
+        Server server = new Server();
+        Mem mem = server.getMem();
+        Assert.isTrue(mem.getTotal() < 32 * 1024 * 1024 * 1024L , "内存不足，请至少32G内存");
+        log.debug("内存满足条件");
 
         CheckEnvDto checkEnvDto = new CheckEnvDto();
 
@@ -120,13 +141,8 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         DockerComposeInfoDto dockerComposeInfo = VersionCtlUtils.dockerComposeInfo();
         log.debug("dockerComposeInfo:{}", dockerComposeInfo);
 
-        // 检查kubernetes是否存在，还有版本号
-        KubectlInfoDto kubernetesInfo = VersionCtlUtils.kubernetesInfo();
-        log.debug("kubernetesInfo:{}", kubernetesInfo);
-
         checkEnvDto.setDockerInfo(dockerInfo);
         checkEnvDto.setDockerComposeInfo(dockerComposeInfo);
-        checkEnvDto.setKubernetesInfo(kubernetesInfo);
         checkEnvDto.setNetInfo(netInfo);
 
         return checkEnvDto;
