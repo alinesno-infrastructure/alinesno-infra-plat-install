@@ -7,86 +7,10 @@
       </router-link>
     </div>
     <div class="acp-header-item ">
-      <router-link class="header-label-text" to="/dashboard/learnPanel">
+      <a target="_blank" class="header-label-text" href="http://portal.infra.linesno.com/operation/02_环境部署/02_Docker部署.html">
         <i class="fa-regular fa-file-word"></i> 安装文档 
-      </router-link>
+      </a>
     </div>
-
-    <!-- <div class="acp-header-item ">
-      <router-link class="header-label-text" to="/dashboard/smartService">
-        <i class="fa-solid fa-swatchbook"></i> 专家 
-      </router-link>
-    </div>
-    <div class="acp-header-item ">
-      <router-link class="header-label-text" to="/dashboard/suportTechnique">
-        <i class="fa-solid fa-user-tag"></i> 服务
-      </router-link>
-    </div> -->
-
-    <!-- <el-dropdown size="mini">
-      <div class="acp-header-item " style="display: flex">
-        <a class="header-label-text">
-          <i class="fa-solid fa-shield-halved"></i>
-          {{ nickname }}
-          {{ account }}
-          <el-icon>
-            <ArrowDownBold />
-          </el-icon>
-        </a>
-        <a class="header-label-text" target="_blank">
-          <img :src="avator" class="su70ez-0 CB-gLgKdv" alt="" />
-        </a>
-      </div>
-
-      <template #dropdown>
-        <el-dropdown-menu style="width: 350px">
-
-          <el-container style="margin-bottom: 15px">
-            <el-header class="bg-color-base info-h" style="">
-              <p class="color-text-secondary f-e-s">名称: {{ nickname }}</p>
-              <p class="color-text-primary f-e-s">账号ID: 417-14778-7888  
-                <span class="copy-user-id">
-                  <i class="fa-solid fa-clone"></i> 
-                </span>
-              </p>
-            </el-header>
-          </el-container>
-
-          <router-link :to="{ path: '/user/profile' }" replace>
-            <el-dropdown-item>
-              <i class="fa-solid fa-user-pen"></i> 用户中心
-            </el-dropdown-item>
-          </router-link>
-
-          <router-link :to="{ path: '/dashboard/dashboardTheme' }" replace>
-          <el-dropdown-item>
-            <i class="fa-solid fa-desktop"></i> 组织配置
-          </el-dropdown-item>
-          </router-link>
-
-          <router-link :to="{ path: '/dashboard/dashboardTheme' }" replace>
-            <el-dropdown-item>
-              <i class="fa-solid fa-user-group"></i> 锁屏
-            </el-dropdown-item>
-          </router-link>
-
-          <el-dropdown-item @click="setting = true">
-            <i class="fa-solid fa-pen-ruler"></i> 布局设置
-          </el-dropdown-item>
-
-          <el-dropdown-item>
-            <i class="fa-solid fa-rocket"></i> 账单面板
-          </el-dropdown-item>
-
-          <el-container>
-            <el-main>
-              <el-button type="primary" style="width: 100%" @click="logout">退出登陆</el-button>
-            </el-main>
-          </el-container>
-
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown> -->
 
   </nav>
 </template>
