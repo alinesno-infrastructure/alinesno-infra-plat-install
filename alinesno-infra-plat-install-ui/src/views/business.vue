@@ -59,7 +59,7 @@
               <el-input v-model="installForm.serverIp" placeholder="请输入安装服务器的IP地址" autocomplete="off" />
             </el-form-item>
             <el-form-item label="访问端口" prop="accessPort">
-              <el-input v-model="installForm.accessPort" placeholder="请输入数字格式的访问端口" autocomplete="off" />
+              <el-input v-model="installForm.accessPort" placeholder="请输入数字格式的访问端口" autocomplete="off" disabled="disabled" />
             </el-form-item>
 
             <el-form-item label="保存配置文件">
@@ -109,7 +109,7 @@ const installForm = reactive({
   adminUsername: '',
   adminPassword: '',
   serverIp: '',
-  accessPort: '',
+  accessPort: '30109',
   saveConfig: true , // Flag to indicate whether to save the configuration
 });
 
@@ -157,8 +157,8 @@ const submitForm = (formEl) => {
 
       const loading = ElLoading.service({
         lock: true,
-        text: 'Loading',
-        background: 'rgba(0, 0, 0, 0.7)',
+        text: '安装过程中，请勿关闭或者刷新浏览器',
+        background: 'rgba(0, 0, 0, 0.2)',
       })
 
       // 直接使用 installForm 对象的数据来构建请求体
@@ -202,25 +202,23 @@ const resetForm = (formEl) => {
 
 // Method to check the environment
 const checkEnvironment = () => {
-
-
-  const isValid = /* perform checks */ true; // Assume checks pass for demonstration
+  const isValid = true
   if (isValid) {
 
     const loading = ElLoading.service({
       lock: true,
       text: 'Loading',
-      background: 'rgba(0, 0, 0, 0.7)',
+      background: 'rgba(0, 0, 0, 0.2)',
     })
 
-    checkEnv().then( res => {
+    checkEnv(installForm.envType).then( res => {
       console.log(res)
       isEnvValid.value = true;
       ElMessage.success('环境检查通过！');
       loading.close();
     }).catch(err => {
       console.log(err)
-      isEnvValid.value = true;
+      isEnvValid.value = false ;
       ElMessage.error('环境检查失败！');
       loading.close();
     });
