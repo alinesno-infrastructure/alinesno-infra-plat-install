@@ -1,10 +1,12 @@
 package com.alinesno.infra.business.platform.install.utils;
 
-import cn.hutool.core.io.IORuntimeException;
-import cn.hutool.core.util.RuntimeUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.business.platform.install.dto.*;
 import com.alinesno.infra.business.platform.install.dto.project.Project;
+import com.alinesno.infra.business.platform.install.service.impl.ParentInstall;
+import com.alinesno.infra.business.platform.install.shell.domain.CmdResult;
+import com.alinesno.infra.business.platform.install.shell.runner.CmdExecutor;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -67,7 +69,7 @@ public class VersionCtlUtils {
 			info = JSONObject.toJavaObject(json, DockerInfoDto.class);
 
 			log.debug("info = {}", info);
-		} catch (IORuntimeException | IOException e) {
+		} catch (IOException e) {
 			log.error("获取到Docker信息时发生错误:" + e.getMessage(), e);
 			throw new RuntimeException("请确认本地是否安装Docker环境") ;
 		}
