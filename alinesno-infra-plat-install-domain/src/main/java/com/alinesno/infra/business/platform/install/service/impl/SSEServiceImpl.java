@@ -1,12 +1,12 @@
 package com.alinesno.infra.business.platform.install.service.impl;
 
-import cn.hutool.core.lang.Assert;
 import com.alinesno.infra.business.platform.install.service.ISSEService;
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
