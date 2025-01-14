@@ -22,7 +22,7 @@ const consoleLog = ref(null);
 let eventSource = null;
 let loading = null ;
 const logMessages = ref([]); // 用于存储日志消息的数组
-const maxLogEntries = 100; // 设置最大日志条目数
+const maxLogEntries = 2000; // 设置最大日志条目数
 const isAutoScroll = ref(true); // 控制是否自动滚动
 
 // 模拟开始安装并启动SSE连接
@@ -126,7 +126,7 @@ onMounted(() => {
         loading = ElLoading.service({
             lock: true,
             text: 'Loading',
-            background: 'rgba(0, 0, 0, 0.2)',
+            background: 'rgba(0, 0, 0, 0.5)',
         })
         console.info("初始化界面.");
         startInstallation();
