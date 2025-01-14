@@ -46,7 +46,7 @@ export default {
   display: inline-block;
   position: relative;
   cursor: default;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .panThumb {
@@ -101,7 +101,7 @@ export default {
   padding: 22px 0 0 0;
   height: 85px;
   font-family: 'Open Sans', Arial, sans-serif;
-  text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .pan-info p {
