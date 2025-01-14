@@ -127,7 +127,6 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         Server server = new Server();
         Mem mem = server.getMem();
         Assert.isTrue(mem.getTotal() < 32 * 1024 * 1024 * 1024L , "内存不足，请至少32G内存");
-        log.debug("内存满足条件");
 
         CheckEnvDto checkEnvDto = new CheckEnvDto();
 
@@ -140,6 +139,13 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         // 查询Docker-Compose是否存在，还有版本号
         DockerComposeInfoDto dockerComposeInfo = VersionCtlUtils.dockerComposeInfo();
         log.debug("dockerComposeInfo:{}", dockerComposeInfo);
+
+        String shell = "docker-compose -v";
+        CmdExecutor executor = new CmdExecutor(new ParentInstall.NullProcListener(), logListener, null, null, Lists.newArrayList("K8S_SHELL_RUNNER"), null, Lists.newArrayList(shell));
+        CmdResult result = executor.run();
+        if(result.getExitValue() != 0){
+            throw new RpcServiceRuntimeException("docker-compose 请检查安装是否正确") ;
+        }
 
         checkEnvDto.setDockerInfo(dockerInfo);
         checkEnvDto.setDockerComposeInfo(dockerComposeInfo);
