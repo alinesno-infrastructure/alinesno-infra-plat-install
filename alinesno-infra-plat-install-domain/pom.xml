@@ -25,6 +25,16 @@
 			<groupId>com.alinesno.infra.plat.install</groupId>
 			<artifactId>alinesno-infra-plat-install-facade</artifactId>
 			<version>${revision}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>hutool-all</artifactId>
+					<groupId>cn.hutool</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mapstruct-plus</artifactId>
+					<groupId>io.github.linpeilie</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
