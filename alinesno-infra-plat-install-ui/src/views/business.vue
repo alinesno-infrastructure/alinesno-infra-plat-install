@@ -158,7 +158,7 @@ const submitForm = (formEl) => {
       const loading = ElLoading.service({
         lock: true,
         text: '安装过程中，请勿关闭或者刷新浏览器',
-        background: 'rgba(0, 0, 0, 0.2)',
+        background: 'rgba(0, 0, 0, 0.5)',
       })
 
       // 直接使用 installForm 对象的数据来构建请求体
@@ -208,7 +208,7 @@ const checkEnvironment = () => {
     const loading = ElLoading.service({
       lock: true,
       text: 'Loading',
-      background: 'rgba(0, 0, 0, 0.2)',
+      background: 'rgba(0, 0, 0, 0.5)',
     })
 
     checkEnv(installForm.envType).then( res => {
