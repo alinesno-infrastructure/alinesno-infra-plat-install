@@ -18,11 +18,83 @@
 			<groupId>com.alinesno.infra.plat.install</groupId>
 			<artifactId>alinesno-infra-plat-install-facade</artifactId>
 			<version>${revision}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>easyexcel</artifactId>
+					<groupId>com.alibaba</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>easypoi-base</artifactId>
+					<groupId>cn.afterturn</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk15on</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>druid</artifactId>
+					<groupId>com.alibaba</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>easypoi-annotation</artifactId>
+					<groupId>cn.afterturn</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>easypoi-spring-boot-starter</artifactId>
+					<groupId>cn.afterturn</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>easypoi-web</artifactId>
+					<groupId>cn.afterturn</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>redisson-spring-boot-starter</artifactId>
+					<groupId>org.redisson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-boot-starter-data-redis</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mysql-connector-j</artifactId>
+					<groupId>com.mysql</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>alinesno-infra-mybatis-enhance-actable</artifactId>
+					<groupId>com.alinesno.infra.mybatis.actable</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mybatis-plus-boot-starter</artifactId>
+					<groupId>com.baomidou</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>byte-buddy</artifactId>
+					<groupId>net.bytebuddy</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-boot-starter-test</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hutool-all</artifactId>
+					<groupId>cn.hutool</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mapstruct-plus</artifactId>
+					<groupId>io.github.linpeilie</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.alinesno.infra.plat.install</groupId>
 			<artifactId>alinesno-infra-plat-install-domain</artifactId>
 			<version>${revision}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>minio</artifactId>
+					<groupId>io.minio</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -40,7 +112,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<finalName>${project.artifactId}-${project.version}</finalName> <!-- 设置最终构建的文件名 -->
-					<outputDirectory>${project.basedir}/dist</outputDirectory> <!-- 指定输出目录 -->
+					<outputDirectory>${project.basedir}/../dist</outputDirectory> <!-- 指定输出目录 -->
 				</configuration>
             </plugin>
         </plugins>
