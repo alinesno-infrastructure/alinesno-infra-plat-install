@@ -93,6 +93,9 @@ public class DatabaseUtils {
 	public static void initDatabase(InstallForm installForm, List<Project> projectYamlList) {
 		try {
 			for (Project project : projectYamlList) {
+
+				log.debug("导入服务:{} , 数据库:{}", project.getDesc() + ":" + project.getName(), project.getDatabase());
+
 				String sqlFilename = project.getDatabaseSqlPath();
 				if (StringUtils.isNotEmpty(sqlFilename)) {
 					getConnectDatabase(sqlFilename);
