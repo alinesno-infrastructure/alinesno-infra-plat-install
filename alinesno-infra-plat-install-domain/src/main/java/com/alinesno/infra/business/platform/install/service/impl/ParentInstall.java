@@ -25,13 +25,6 @@ import java.util.List;
 @Slf4j
 public abstract class ParentInstall implements IInstallService {
 
-    protected static final String REDIS_PASSWORD = "aip@redis";
-    protected static final String MYSQL_ROOT_PASSWORD = "aip@mysql";
-    protected static final String POSTGRES_PASSWORD = "aip@postgresql";
-    protected static final String MINIO_ROOT_USER = "minio";
-    protected static final String MINIO_ROOT_PASSWORD = "aip@minio";
-    protected static final String BOOTSTRAP_PASSWORD = "aip@elastic";
-
     @Autowired
     protected AipConfigDownUtils aipConfig ;
 
