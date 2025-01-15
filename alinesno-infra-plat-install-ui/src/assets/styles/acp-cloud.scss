@@ -1410,8 +1410,8 @@ $chartColor: #3b5998;
   }
 }
 
-.el-loading-text{
-    font-size: 50px;
-    font-weight: bold ;
-    color: #fff ;
+.el-loading-spinner .el-loading-text {
+    font-size: 50px !important;
+    font-weight: bold  !important;
+    color: #fff !important;
 }
