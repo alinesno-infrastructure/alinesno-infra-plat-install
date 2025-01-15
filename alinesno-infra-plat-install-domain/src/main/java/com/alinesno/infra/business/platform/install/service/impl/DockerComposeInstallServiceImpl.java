@@ -10,7 +10,6 @@ import com.alinesno.infra.business.platform.install.utils.NetUtils;
 import com.alinesno.infra.business.platform.install.utils.VersionCtlUtils;
 import com.alinesno.infra.common.core.monitor.Server;
 import com.alinesno.infra.common.core.monitor.server.Mem;
-import com.alinesno.infra.common.core.monitor.server.Sys;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +42,19 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
 
         String installFilePath = NetUtils.getInstallFile() ;
 
+        // 下载项目镜像
+        int count = 1 ;
+        for (Project project : projectYamlList) {
+            printStep("下载项目镜像【"+project.getDesc()+"】开始.");
+            downloadProjectImage(project, installFilePath , projectYamlList.size()-count);
+            printStep("下载项目镜像【"+project.getDesc()+"】结束.");
+            count ++ ;
+        }
+
+        count = 1 ;
         for (Project project : projectYamlList) {
             printStep("安装项目【"+project.getDesc()+"】开始.");
-            runProject(project, installFilePath);
+            runProject(project, installFilePath , projectYamlList.size() - count);
             printStep("安装项目【"+project.getDesc()+"】结束.");
         }
 
@@ -56,14 +65,33 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
+    private void downloadProjectImage(Project project, String installFilePath, int size) {
+        log.debug("开始下载项目镜像:【{}】，还有【{}】个下载" , project.getName()+":" + project.getDesc() , size);
+        String projectYaml = project.getDockerComposeYamlPath();
+        String shell = """
+                cd %s/%s
+                docker-compose -f docker-compose-dev.yaml --env-file ../.env pull
+                """
+                .formatted(installFilePath, project.getName()) ;
+
+        CmdExecutor executor = new CmdExecutor(new NullProcListener(), logListener, null, null, Lists.newArrayList("K8S_SHELL_RUNNER"), null, Lists.newArrayList(shell));
+        CmdResult result = executor.run();
+
+        log.debug("result = {}", result);
+        if(result.getExitValue() != 0){
+            throw new RpcServiceRuntimeException("docker-compose pull 执行失败") ;
+        }
+        log.debug("结束下载项目镜像:【{}】" , project.getName()+":" + project.getDesc());
+    }
+
     private void printStep(String step){
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         log.info("开始安装:{}" ,step) ;
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
-    private static void runProject(Project project, String installFilePath) {
-        log.debug("开始启动项目:【{}】" , project.getName()+":" + project.getDesc());
+    private static void runProject(Project project, String installFilePath, int size) {
+        log.debug("开始启动项目:【{}】，还有【{}】个项目需要安装" , project.getName()+":" + project.getDesc() , size);
 
         String projectYaml = project.getDockerComposeYamlPath();
         String shell = """
@@ -94,6 +122,10 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         String installFilePath = NetUtils.getInstallFile() ;
         String cdShell = "cd " + installFilePath ;
         String shell = """
+                # 处理ES映射本地权限的问题
+                mkdir -p /usr/share/aip-env/data/elasticsearch
+                chmod -R 777 /usr/share/aip-env/data/elasticsearch
+                
                 docker-compose -f alinesno-env-tools.yaml down
                 sleep 10
                 
