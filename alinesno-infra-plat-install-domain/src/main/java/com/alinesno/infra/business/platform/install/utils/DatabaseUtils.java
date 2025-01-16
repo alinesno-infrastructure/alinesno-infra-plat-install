@@ -5,13 +5,17 @@ import com.alinesno.infra.business.platform.install.dto.InstallForm;
 import com.alinesno.infra.business.platform.install.dto.project.Project;
 import com.alinesno.infra.common.core.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class DatabaseUtils {
@@ -91,6 +95,7 @@ public class DatabaseUtils {
 	 * 执行批量数据库初始化
 	 */
 	public static void initDatabase(InstallForm installForm, List<Project> projectYamlList) {
+
 		try {
 			for (Project project : projectYamlList) {
 
@@ -98,6 +103,12 @@ public class DatabaseUtils {
 
 				String sqlFilename = project.getDatabaseSqlPath();
 				if (StringUtils.isNotEmpty(sqlFilename)) {
+
+					// 读取到sql文件里面的内容，然后替换，再写入到文件里面
+					String sqlContent = FileUtils.readFileToString(new File(sqlFilename), "UTF-8");
+					sqlContent = sqlContent.replace("host.docker.internal", installForm.getServerIp());
+					FileUtils.writeStringToFile(new File(sqlFilename), sqlContent, "UTF-8");
+
 					getConnectDatabase(sqlFilename);
 					Thread.sleep(1000); // 如果有需要的话，保持这个休眠时间
 				}
