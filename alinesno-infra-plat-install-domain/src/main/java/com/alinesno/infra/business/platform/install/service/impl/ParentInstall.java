@@ -43,19 +43,28 @@ public abstract class ParentInstall implements IInstallService {
     protected List<Project> getProjectYamlList(InstallForm installForm) throws IOException {
         // 根据版本号下载安装程序
         log.debug("根据版本号:{}解析下载安装程序..." , installForm.getVersion());
-        AipBean aipBean = aipConfig.config(installForm.getVersion());
+        AipBean aipBean = aipConfig.config(installForm);
 
         List<Project> projects = new ArrayList<>() ;
 
         // 解析Bean获取到安装文件
         List<String> projectYamlList = new ArrayList<>() ;
-        for (Project project : aipBean.getProjects()) {
-            log.debug("开始下载项目Yaml配置文件:{}" , project.getName());
-            List<String> ps = aipConfig.downloadProjectYaml(installForm ,  project) ;
-            projectYamlList.addAll(ps) ;
 
-            projects.add(project) ;
+        for (Project project : aipBean.getProjects()) {
+            if(installForm.getPlatformType().contains(project.getCode())){
+
+                log.debug("开始下载项目Yaml配置文件:{}" , project.getName());
+                List<String> ps = aipConfig.downloadProjectYaml(installForm ,  project) ;
+                projectYamlList.addAll(ps) ;
+
+                projects.add(project) ;
+            }
         }
+
+        projectYamlList.forEach(p -> {
+            log.debug("下载项目Yaml配置文件:{}" , p);
+        });
+
         log.debug("下载项目配置文件完成...");
         return projects;
     }
@@ -72,39 +81,6 @@ public abstract class ParentInstall implements IInstallService {
      */
     void installByK8s(InstallForm installForm){};
 
-    protected boolean isMysqlReady() {
-        int attempts = 0;
-        final int MAX_ATTEMPTS = 10; // 尝试次数限制。
-        final int SLEEP_BETWEEN_ATTEMPTS_MS = 5000; // 每次尝试之间的等待时间。
-
-        while (attempts < MAX_ATTEMPTS) {
-            try {
-                // 替换为您的MySQL连接字符串、用户名和密码。
-                Connection connection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/mysql?useSSL=false",
-                        "root",
-                        "aip@mysql"
-                );
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                    return true;
-                }
-            } catch (SQLException e) {
-                log.warn("第{}次尝试连接MySQL失败。稍后再试...", attempts + 1);
-                try {
-                    Thread.sleep(SLEEP_BETWEEN_ATTEMPTS_MS);
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    throw new RuntimeException(ie);
-                }
-            }
-            attempts++;
-        }
-
-
-        return false;
-    }
-
     protected static class NullProcListener implements ProcListener {
 
         @Override
@@ -120,16 +96,18 @@ public abstract class ParentInstall implements IInstallService {
 
         @Override
         public void onExecuted(CmdResult result) {
-            System.out.println("---> onExecuted ,  result = " + result);
-            log.error("运行脚本异常:{}" , result);
-//            throw new RpcServiceRuntimeException("运行脚本异常") ;
+            if(result != null && result.getExitValue() != 0) {
+                System.out.println("---> onExecuted ,  result = " + result);
+                log.error("运行脚本异常:{}", result);
+            }
         }
 
         @Override
         public void onException(CmdResult result) {
-            System.out.println("---> onException ,  result = " + result);
-            log.error("运行脚本异常:{}" , result.toString());
-//            throw new RpcServiceRuntimeException("运行脚本异常") ;
+            if(result != null && result.getExitValue() != 0){
+                System.out.println("---> onException ,  result = " + result);
+                log.error("运行脚本异常:{}" , result.toString());
+            }
         }
     }
 
