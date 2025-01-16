@@ -16,6 +16,11 @@ public class Project {
     private String name;
 
     /**
+     * 所属套件代码
+     */
+    private String code ;
+
+    /**
      * 项目描述
      * 对项目的简要介绍和说明
      */
