@@ -3,6 +3,8 @@ package com.alinesno.infra.business.platform.install.dto;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * 安装表单实体类
  * 用于接收和处理安装过程中从前端传来的参数信息
@@ -10,6 +12,11 @@ import lombok.ToString;
 @ToString
 @Data
 public class InstallForm {
+
+    /**
+     * 平台类型
+     */
+    private List<String> platformType ;
 
     /**
      * 版本号
