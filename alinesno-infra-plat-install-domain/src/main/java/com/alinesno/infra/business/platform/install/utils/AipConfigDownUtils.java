@@ -25,7 +25,10 @@ public class AipConfigDownUtils {
 
     private final String installPath = NetUtils.getInstallFile() ;
 
-    public AipBean config(String version) throws IOException {  // 下载配置文件
+    public AipBean config(InstallForm installForm) throws IOException {  // 下载配置文件
+
+        String version = installForm.getVersion() ;
+
         // 清理当前目录文件
         FileUtils.forceMkdir(new File(installPath));
 
@@ -38,6 +41,13 @@ public class AipConfigDownUtils {
         NetUtils.download(downloadEnvUrl, installPath + File.separator + ".env") ;
         NetUtils.download(toolsEnvUrl, installPath + File.separator + "alinesno-env-tools.yaml") ;
         log.debug("下载配置文件成功:{}" , installPath);
+
+        // 写入环境变量到.env文件当中
+        // QIANWEN_SK=xxx
+        String env = FileUtils.readFileToString(new File(installPath + File.separator + ".env") , Charset.defaultCharset());
+        env = env.replace("QIANWEN_SK=" , "QIANWEN_SK=" + installForm.getApiKey()) ;
+        env = env.replace("host.docker.internal" , installForm.getServerIp()) ;
+        FileUtils.writeStringToFile(new File(installPath + File.separator + ".env") , env , Charset.defaultCharset()) ;
 
         String aipConfigJsonStr = FileUtils.readFileToString(new File(installPath + File.separator + "aip-config.json") , Charset.defaultCharset());
         log.debug("开始解析配置文件:\r\n{}" , aipConfigJsonStr);
