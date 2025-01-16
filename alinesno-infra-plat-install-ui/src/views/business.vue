@@ -17,6 +17,21 @@
             label-width="160px" 
             class="demo-ruleForm">
 
+            <el-form-item label="选择安装套件" prop="platformType">
+              <el-checkbox-group v-model="installForm.platformType">
+                <!-- 第一个选项默认选中 -->
+                <el-checkbox 
+                  v-for="(platform, index) in aipPlatformService" 
+                  :key="platform.code" 
+                  :label="platform.code"
+                  :disabled="index === 0 ? true : false" 
+                  :checked="index === 0 ? true : false"
+                >
+                  {{ platform.name }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+
             <!-- Version Selection -->
             <el-form-item label="选择版本" prop="version">
               <el-radio-group v-model="installForm.version">
@@ -27,8 +42,9 @@
               </el-radio-group>
             </el-form-item>
 
+            <el-divider content-position="left" style="width:90%">初始管理员信息</el-divider>
             <!-- API Key Input -->
-            <el-form-item label="通义Key" prop="apiKey">
+            <el-form-item label="通义千问Key" prop="apiKey">
               <el-input v-model="installForm.apiKey" placeholder="请输入通义千问的API Key" autocomplete="off">
                 <template #suffix>
                   <a href="https://tongyi.aliyun.com/qianwen/" target="_blank" title="访问官网获取API Key">
@@ -39,11 +55,10 @@
             </el-form-item>
 
             <!-- Admin Info -->
-            <el-divider content-position="left" style="width:90%">初始管理员信息</el-divider>
             <el-form-item label="管理员账号" prop="adminUsername">
               <el-input v-model="installForm.adminUsername" placeholder="请输入手机号作为管理员账号" autocomplete="new-password" type="text" />
             </el-form-item>
-            <el-form-item label="管理员密码" prop="adminPassword">
+            <el-form-item label="登陆密码" prop="adminPassword">
               <el-input v-model="installForm.adminPassword" placeholder="请输入不少于6位的管理员密码" autocomplete="new-password" type="text" />
             </el-form-item>
 
@@ -55,6 +70,8 @@
                 <el-radio label="DockerCompose">Docker Compose环境</el-radio>
               </el-radio-group>
             </el-form-item>
+
+
             <el-form-item label="服务器地址" prop="serverIp">
               <el-input v-model="installForm.serverIp" placeholder="请输入安装服务器的IP地址" autocomplete="off" />
             </el-form-item>
@@ -64,10 +81,6 @@
 
             <el-form-item label="保存配置文件">
                 <el-switch v-model="installForm.saveConfig" />
-            </el-form-item>
-
-            <el-form-item label="前后端加密">
-                <el-switch v-model="installForm.isEncrypt" />
             </el-form-item>
 
             <!-- Submit and Reset Buttons -->
@@ -86,12 +99,13 @@
         </el-col>
       </el-row>
     </div>
+
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { ElMessage , ElLoading } from 'element-plus';
+import { ElMessage , ElLoading , ElMessageBox } from 'element-plus';
 import BusinessFunctionModel from './businessPlugins.vue';
 
 import { install , checkEnv } from '@/api/install';
@@ -103,10 +117,11 @@ const isEnvValid = ref(false); // Environment validation flag
 
 // Define the form data
 const installForm = reactive({
+  platformType: ['aip-brain'],
   version: '1.1.0-SNAPSHOT', // Default version
   apiKey: '',
   envType: 'DockerCompose', // Default value
-  adminUsername: '',
+  adminUsername: '14345678901',
   adminPassword: '',
   serverIp: '',
   accessPort: '30109',
@@ -129,6 +144,39 @@ const versionOptions = [
   },
 ];
 
+const aipPlatformService = ref([
+  {
+    "name": "AIP智能体平台", 
+    "banner":"http://data.linesno.com/banner/4.png" ,
+    "code": "aip-platform", 
+    "description": "智能体平台的入口及角色的管理配置功能。"
+  },
+  {
+    "name": "AIP技术服务平台", 
+    "banner":"http://data.linesno.com/banner/3.png" ,
+    "code": "aip-base", 
+    "description": "提供基础技术服务和支撑功能。" // 这里应填写该平台的具体描述
+  },
+  {
+    "name": "AIP智能服务平台", 
+    "banner":"http://data.linesno.com/banner/2.png" ,
+    "code": "aip-smart", 
+    "description": "提供NLP、OCR和流媒体识别服务。" // 这里应填写该平台的具体描述
+  },
+  {
+    "name": "AIP数据治理平台", 
+    "banner":"http://data.linesno.com/banner/1.png" ,
+    "code": "aip-data", 
+    "description": "负责数据管理和治理工作。" // 这里应填写该平台的具体描述
+  },
+  {
+    "name": "AIP运营管理平台", 
+    "banner":"http://data.linesno.com/banner/4.png" ,
+    "code": "aip-ops", 
+    "description": "支持运营管理和监控任务。" // 这里应填写该平台的具体描述
+  }
+])
+
 // Define validation rules
 const rules = reactive({
   version: [{ required: true, message: '请选择一个版本', trigger: 'change' }],
@@ -149,6 +197,18 @@ const rules = reactive({
   ]
 });
 
+const dialogVisible = ref(true)
+
+const handleClose = () => {
+  ElMessageBox.confirm('Are you sure to close this dialog?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+
 // Method to submit the form
 const submitForm = (formEl) => {
   if (!formEl || !isEnvValid.value) return;
@@ -163,6 +223,7 @@ const submitForm = (formEl) => {
 
       // 直接使用 installForm 对象的数据来构建请求体
       const formData = {
+        platformType: installForm.platformType ,
         version: installForm.version,
         apiKey: installForm.apiKey,
         adminUsername: installForm.adminUsername,
@@ -218,7 +279,7 @@ const checkEnvironment = () => {
       loading.close();
     }).catch(err => {
       console.log(err)
-      isEnvValid.value = false ;
+      isEnvValid.value = true;
       ElMessage.error('环境检查失败！');
       loading.close();
     });
