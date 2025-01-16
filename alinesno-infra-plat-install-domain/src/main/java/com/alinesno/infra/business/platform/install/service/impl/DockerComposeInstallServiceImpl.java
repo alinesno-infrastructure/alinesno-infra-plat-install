@@ -67,7 +67,6 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
 
     private void downloadProjectImage(Project project, String installFilePath, int size) {
         log.debug("开始下载项目镜像:【{}】，还有【{}】个下载" , project.getName()+":" + project.getDesc() , size);
-        String projectYaml = project.getDockerComposeYamlPath();
         String shell = """
                 cd %s/%s
                 docker-compose -f docker-compose-dev.yaml --env-file ../.env pull
@@ -93,11 +92,9 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
     private static void runProject(Project project, String installFilePath, int size) {
         log.debug("开始启动项目:【{}】，还有【{}】个项目需要安装" , project.getName()+":" + project.getDesc() , size);
 
-        String projectYaml = project.getDockerComposeYamlPath();
         String shell = """
                 cd %s/%s
-                docker-compose -f docker-compose-dev.yaml --env-file ../.env down
-                sleep 10
+                docker-compose -f docker-compose-dev.yaml --env-file ../.env down 
                 
                 # 启动服务
                 docker-compose -f docker-compose-dev.yaml --env-file ../.env up -d
@@ -127,7 +124,6 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
                 chmod -R 777 /usr/share/aip-env/data/elasticsearch
                 
                 docker-compose -f alinesno-env-tools.yaml down
-                sleep 10
                 
                 # 启动服务
                 docker-compose -f alinesno-env-tools.yaml up -d
