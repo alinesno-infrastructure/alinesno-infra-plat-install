@@ -6,10 +6,9 @@ import com.alinesno.infra.business.platform.install.shell.domain.CmdResult;
 import com.alinesno.infra.business.platform.install.shell.runner.CmdExecutor;
 import com.alinesno.infra.business.platform.install.shell.utils.SystemUtil;
 import com.alinesno.infra.business.platform.install.utils.DatabaseUtils;
+import com.alinesno.infra.business.platform.install.utils.MinioUtil;
 import com.alinesno.infra.business.platform.install.utils.NetUtils;
 import com.alinesno.infra.business.platform.install.utils.VersionCtlUtils;
-import com.alinesno.infra.common.core.monitor.Server;
-import com.alinesno.infra.common.core.monitor.server.Mem;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +33,10 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         // 安装基础工具
         installTools();
         printStep("安装基础工具结束.");
+
+        // initMinio
+        printStep("初始化Minio开始.");
+        MinioUtil.createPublicBucket("alinesno"); ;
 
         // 初始化数据库脚本
         printStep("初始化数据库脚本开始.");
@@ -61,7 +64,9 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         // 下面是访问地址:
         log.debug("");
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        log.info("AIP平台访问入口: http://{}:30109" , installForm.getServerIp());
+        log.info("AIP智能体平台入口: http://{}:30109" , installForm.getServerIp());
+        log.info("AIP智能体管理入口: http://{}:30304" , installForm.getServerIp());
+        log.info("AIP管理工作台入口: http://{}:30600" , installForm.getServerIp());
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
@@ -130,6 +135,7 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
                 docker-compose -f alinesno-env-tools.yaml up --wait
                 
                 docker-compose -f alinesno-env-tools.yaml ps
+                sleep 10
                 """ ;
         log.debug("docker-compose shell = {}", shell);
 
@@ -150,11 +156,11 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
         log.debug("检查环境...");
         Assert.isTrue(!SystemUtil.isWindows() , "请使用Linux环境安装");
 
-        // 检查内存还有硬盘是否满足
-        log.debug("检查内存是否满足...");
-        Server server = new Server();
-        Mem mem = server.getMem();
-        Assert.isTrue(mem.getTotal() < 32 * 1024 * 1024 * 1024L , "内存不足，请至少32G内存");
+//        // 检查内存还有硬盘是否满足
+//        log.debug("检查内存是否满足...");
+//        Server server = new Server();
+//        Mem mem = server.getMem();
+//        Assert.isTrue(mem.getTotal() < 32 * 1024 * 1024 * 1024L , "内存不足，请至少32G内存");
 
         CheckEnvDto checkEnvDto = new CheckEnvDto();
 
