@@ -77,12 +77,6 @@
 			<groupId>com.alinesno.infra.plat.install</groupId>
 			<artifactId>alinesno-infra-plat-install-domain</artifactId>
 			<version>${revision}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>minio</artifactId>
-					<groupId>io.minio</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
