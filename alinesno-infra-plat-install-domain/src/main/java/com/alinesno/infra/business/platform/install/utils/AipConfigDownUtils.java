@@ -46,6 +46,7 @@ public class AipConfigDownUtils {
         // QIANWEN_SK=xxx
         String env = FileUtils.readFileToString(new File(installPath + File.separator + ".env") , Charset.defaultCharset());
         env = env.replace("QIANWEN_SK=" , "QIANWEN_SK=" + installForm.getApiKey()) ;
+        env = env.replace("${USER_HOME}" , System.getProperty("user.home")) ;
         env = env.replace("host.docker.internal" , installForm.getServerIp()) ;
         FileUtils.writeStringToFile(new File(installPath + File.separator + ".env") , env , Charset.defaultCharset()) ;
 
