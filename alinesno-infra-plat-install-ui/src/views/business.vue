@@ -45,7 +45,7 @@
             <el-divider content-position="left" style="width:90%">初始管理员信息</el-divider>
             <!-- API Key Input -->
             <el-form-item label="通义千问Key" prop="apiKey">
-              <el-input v-model="installForm.apiKey" placeholder="请输入通义千问的API Key" autocomplete="off">
+              <el-input v-model="installForm.apiKey" type="password" placeholder="请输入通义千问的API Key" autocomplete="off">
                 <template #suffix>
                   <a href="https://tongyi.aliyun.com/qianwen/" target="_blank" title="访问官网获取API Key">
                     <i class="el-icon-question"></i>
@@ -59,7 +59,7 @@
               <el-input v-model="installForm.adminUsername" placeholder="请输入手机号作为管理员账号" autocomplete="new-password" type="text" />
             </el-form-item>
             <el-form-item label="登陆密码" prop="adminPassword">
-              <el-input v-model="installForm.adminPassword" placeholder="请输入不少于6位的管理员密码" autocomplete="new-password" type="text" />
+              <el-input v-model="installForm.adminPassword" placeholder="请输入不少于6位的管理员密码" autocomplete="new-password" type="password" />
             </el-form-item>
 
             <!-- Server Info -->
