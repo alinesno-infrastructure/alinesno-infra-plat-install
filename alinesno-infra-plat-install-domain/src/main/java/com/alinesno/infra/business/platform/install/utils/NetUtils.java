@@ -1,5 +1,6 @@
 package com.alinesno.infra.business.platform.install.utils;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
@@ -179,13 +180,28 @@ public class NetUtils {
 	 * 
 	 * @return
 	 */
+	@SneakyThrows
 	public static String getInstallFile() {
 		String userHomeDir = System.getProperty("user.home");
 		String installPath = userHomeDir + File.separator + ".aip-install";
-		
-		log.info("AIP安装目录:{}" , installPath);
+		String installDataPath = userHomeDir + File.separator + ".aip-install-data";
+
+		if (!new File(installPath).exists()) {
+			FileUtils.forceMkdir(new File(installPath));
+		}
+
+		if (!new File(installDataPath).exists()) {
+			FileUtils.forceMkdir(new File(installDataPath));
+		}
+
+		log.info("AIP安装目录:{}，数据目录:{}" , installPath , installDataPath);
 
 		return installPath;
+	}
+
+	public static String getInstallDataFile() {
+		String userHomeDir = System.getProperty("user.home");
+        return userHomeDir + File.separator + ".aip-install-data";
 	}
 
 //	public static void downloadDockerYaml(String installPath, String downloadUrl) throws IOException {
