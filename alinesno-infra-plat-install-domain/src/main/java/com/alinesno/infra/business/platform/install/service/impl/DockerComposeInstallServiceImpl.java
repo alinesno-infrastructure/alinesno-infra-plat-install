@@ -31,7 +31,7 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
 
         printStep("安装基础工具开始.");
         // 安装基础工具
-        installTools();
+         installTools();
         printStep("安装基础工具结束.");
 
         // initMinio
@@ -122,11 +122,12 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
 
     public void installTools() {
         String installFilePath = NetUtils.getInstallFile() ;
+        String installDataFile = NetUtils.getInstallDataFile() ;
         String cdShell = "cd " + installFilePath ;
         String shell = """
                 # 处理ES映射本地权限的问题
-                mkdir -p /usr/share/aip-env/data/elasticsearch
-                chmod -R 777 /usr/share/aip-env/data/elasticsearch
+                mkdir -p %s/elasticsearch
+                chmod -R 777 %s/elasticsearch
                 
                 docker-compose -f alinesno-env-tools.yaml down
                 
@@ -136,7 +137,7 @@ public class DockerComposeInstallServiceImpl extends ParentInstall {
                 
                 docker-compose -f alinesno-env-tools.yaml ps
                 sleep 10
-                """ ;
+                """.formatted(installDataFile , installDataFile) ;
         log.debug("docker-compose shell = {}", shell);
 
         CmdExecutor executor = new CmdExecutor(new NullProcListener(), logListener, null, null, Lists.newArrayList("K8S_SHELL_RUNNER"), null, Lists.newArrayList(cdShell , shell));
